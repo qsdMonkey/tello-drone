@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Drone Control</title>
+    <style>
+      body { margin: 0; padding-bottom: 3rem; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
+
+      #form { background: rgba(0, 0, 0, 0.15); padding: 0.25rem; position: fixed; bottom: 0; left: 0; right: 0; display: flex; height: 3rem; box-sizing: border-box; backdrop-filter: blur(10px); }
+      #input { border: none; padding: 0 1rem; flex-grow: 1; border-radius: 2rem; margin: 0.25rem; }
+      #input:focus { outline: none; }
+      #form > button { background: #333; border: none; padding: 0 1rem; margin: 0.25rem; border-radius: 3px; outline: none; color: #fff; }
+
+      #messages { list-style-type: none; margin: 0; padding: 0; }
+      #messages > li { padding: 0.5rem 1rem; }
+      #messages > li:nth-child(odd) { background: #efefef; }
+
+      #avancer { background-color:rgba(0, 0, 0, 0);font-size: 30px; border: none; margin-top: 20px; margin-left: 50px;}
+      #reculer { background-color:rgba(0, 0, 0, 0);font-size: 30px; border: none; margin-top: 20px; margin-left: 50px;}
+      #gauche { background-color:rgba(0, 0, 0, 0); font-size: 30px; border: none; margin-top: 20px;}
+      #droite { background-color: rgba(0, 0, 0, 0); font-size: 30px; border: none; margin-top: 20px;}
+      #start { background-color: #467bc2; font-size: 30px; border-radius: 8px; margin-top: 20px;}
+      #stop { background-color: rgb(216, 45, 45); font-size: 30px; border-radius: 8px; margin-top: 20px;}
+      #urgence { background-color: rgb(255, 0, 0); font-size: 30px; border-radius: 8px; margin-top: 20px;}
+      #up { background-color: rgba(0, 0, 0, 0); font-size: 30px; border: none; margin-top: 20px;}
+      #down { background-color: rgba(0, 0, 0, 0); font-size: 30px; border:none; margin-top: 20px;}
+      
+      #progressBar { width: 20rem;height: 4rem;
+    border: 0.3rem solid purple;
+    margin-top: 1.5rem;
+    background-color: #fff;
+}
+#progressBarFull {
+    height: 3.4rem;
+    background-color: purple;
+    width: 0%;
+}
+
+.card {
+  /* Add shadows to create the "card" effect */
+  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+  width: 900px;
+  height: 300px;
+  padding: .75rem;
+  margin-bottom: 2rem;
+  border: 0;
+  flex-basis: 10%;
+  flex-grow: 0;
+  flex-shrink: 0;
+  overflow: auto;
+  background-color: black;
+  background-image: radial-gradient(
+    rgba(0, 150, 0, 0.75), black 120%
+  );
+  color: white;
+  font: 1.3rem Inconsolata, monospace;
+  text-shadow: 0 0 5px #C8C8C8;
+  border-radius: 5px;
+}
+
+/* On mouse-over, add a deeper shadow */
+.card:hover {
+  box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+}
+
+/* Add some padding inside the card container */
+.container {
+  padding: 2px 16px;
+}
+
+ul {
+  list-style: none;
+  }
+
+    </style>
+  </head>
+  <body>
+    
+
+    <div>
+      <button type="button" onclick="drone('front')" id="avancer"> <img src="https://img.icons8.com/ios-glyphs/90/000000/circled-chevron-up.png"/></button>
+    </div>
+
+    <div>
+      <button type="button" onclick="drone('left')" id="gauche"><img src="https://img.icons8.com/ios-glyphs/90/000000/circled-chevron-left.png"/></button>
+      <button type="button" onclick="drone('right')" id="droite"><img src="https://img.icons8.com/ios-glyphs/90/000000/circled-chevron-right.png"/></button>
+    </div>
+
+    <div>
+      <button type="button" onclick="drone('back')" id="reculer"><img src="https://img.icons8.com/ios-glyphs/90/000000/circled-chevron-down.png"/></button>
+    </div>
+  
+    <div>
+        <button type="button" onclick="drone('up')" id="up"><img src="https://img.icons8.com/ios-glyphs/90/000000/circled-up-2.png"/></button>
+    </div>
+    <div>
+      <button type="button" onclick="drone('cwl')" id="pivoter_gauche">Pivoter a gauche</button>
+      <button type="button" onclick="drone('cwr')" id="pivoter_droite">Pivoter a droite</button>
+      
+    </div>
+    <div>
+        <button type="button" onclick="drone('down')" id="down"><img src="https://img.icons8.com/ios-glyphs/90/000000/circled-down-2.png"/></button>
+      </div>
+    </div>
+
+
+    <div>
+      <button type="button" onclick="drone('takeoff')" id="start">Décoller</button>
+      <button type="button" onclick="drone('land')" id="stop">Atterir</button>
+      <button type="button" onclick="drone('stop')" id="urgence">Arrêt d'urgence</button>
+      
+    </div>
+
+    <div class="card">
+      <ul id="log"></ul>
+    </div>
+   
+    <script src="/socket.io/socket.io.js"></script>
+
+    <script>
+      var log = document.getElementById('log');
+      var socket = io();
+
+      function drone(t){
+          socket.emit(t);
+      }
+      
+      socket.on('log', function(msg) {
+        var item = document.createElement('li');
+        item.textContent = msg;
+        log.appendChild(item);
+      });
+
+      const progressBarFull = document.getElementById('progressBarFull');
+      let questionCounter = 0;
+      const MAX_QUESTIONS = 10;
+      progressBarFull.style.width = `${(questionCounter / MAX_QUESTIONS) * 100}%`;
+    </script>
+  </body>
+</html>
