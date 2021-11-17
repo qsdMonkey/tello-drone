@@ -14,15 +14,20 @@
       #messages > li { padding: 0.5rem 1rem; }
       #messages > li:nth-child(odd) { background: #efefef; }
 
-      #avancer { background-color:rgba(0, 0, 0, 0);font-size: 30px; border: none; margin-top: 20px; margin-left: 50px;}
-      #reculer { background-color:rgba(0, 0, 0, 0);font-size: 30px; border: none; margin-top: 20px; margin-left: 50px;}
-      #gauche { background-color:rgba(0, 0, 0, 0); font-size: 30px; border: none; margin-top: 20px;}
-      #droite { background-color: rgba(0, 0, 0, 0); font-size: 30px; border: none; margin-top: 20px;}
-      #start { background-color: #467bc2; font-size: 30px; border-radius: 8px; margin-top: 20px;}
-      #stop { background-color: rgb(216, 45, 45); font-size: 30px; border-radius: 8px; margin-top: 20px;}
-      #urgence { background-color: rgb(255, 0, 0); font-size: 30px; border-radius: 8px; margin-top: 20px;}
-      #up { background-color: rgba(0, 0, 0, 0); font-size: 30px; border: none; margin-top: 20px;}
-      #down { background-color: rgba(0, 0, 0, 0); font-size: 30px; border:none; margin-top: 20px;}
+      #global{   justify-content: center;   display: flex;}
+      #avancer { background-color:rgba(0, 0, 0, 0);font-size: 30px; border: none; margin-top: 20px; margin-left: 80px;}
+      #reculer { background-color:rgba(0, 0, 0, 0);font-size: 30px; border: none;  margin-left: 80px;}
+      #gauche { background-color:rgba(0, 0, 0, 0); font-size: 30px; border: none; margin-left: 20px; margin-right: 20px;}
+      #droite { background-color: rgba(0, 0, 0, 0); font-size: 30px; border: none; margin-right: 80px;}
+      #start {  font-size: 20px;  margin-top: 20px;}
+      #stop {  font-size: 20px;   margin-top: 20px;}
+      #urgence { background-color: red; font-size: 20px;  margin-top: 20px;}
+      #up { background-color: rgba(0, 0, 0, 0); font-size: 30px; border: none; margin-left: 130px; margin-top: 20px}
+      #down { background-color: rgba(0, 0, 0, 0); font-size: 30px; border:none; margin-left: 130px;}
+      #pivoter_gauche { background-color:rgba(0, 0, 0, 0); border: none; margin-left: 80px; margin-right: 20px;margin-top: 20px;}
+      #pivoter_droite {background-color:rgba(0, 0, 0, 0); border: none; margin-left: 20px;margin-top: 20px;}
+
+      #partiecentre{ margin-left: 20px; margin-top: 40px;}
       
       #progressBar { width: 20rem;height: 4rem;
     border: 0.3rem solid purple;
@@ -42,6 +47,7 @@
   height: 300px;
   padding: .75rem;
   margin-bottom: 2rem;
+  margin-top:2rem ;
   border: 0;
   flex-basis: 10%;
   flex-grow: 0;
@@ -71,48 +77,68 @@ ul {
   list-style: none;
   }
 
+  .center-div {
+    margin: 0 auto;
+    margin-top: 1rem;
+    width: 900px; 
+}
+
+
+
+
     </style>
   </head>
   <body>
     
-
-    <div>
-      <button type="button" onclick="drone('front')" id="avancer"> <img src="https://img.icons8.com/ios-glyphs/90/000000/circled-chevron-up.png"/></button>
-    </div>
-
-    <div>
-      <button type="button" onclick="drone('left')" id="gauche"><img src="https://img.icons8.com/ios-glyphs/90/000000/circled-chevron-left.png"/></button>
-      <button type="button" onclick="drone('right')" id="droite"><img src="https://img.icons8.com/ios-glyphs/90/000000/circled-chevron-right.png"/></button>
-    </div>
-
-    <div>
-      <button type="button" onclick="drone('back')" id="reculer"><img src="https://img.icons8.com/ios-glyphs/90/000000/circled-chevron-down.png"/></button>
-    </div>
-  
-    <div>
-        <button type="button" onclick="drone('up')" id="up"><img src="https://img.icons8.com/ios-glyphs/90/000000/circled-up-2.png"/></button>
-    </div>
-    <div>
-      <button type="button" onclick="drone('cwl')" id="pivoter_gauche">Pivoter a gauche</button>
-      <button type="button" onclick="drone('cwr')" id="pivoter_droite">Pivoter a droite</button>
+    
+    <div id="global">
+      <div id="partieg">
+          <div>
+            <button type="button" onclick="drone('front')" id="avancer"> <img src="https://img.icons8.com/ios-glyphs/90/000000/circled-chevron-up.png"/></button>
+          </div>
       
-    </div>
-    <div>
-        <button type="button" onclick="drone('down')" id="down"><img src="https://img.icons8.com/ios-glyphs/90/000000/circled-down-2.png"/></button>
+          <div>
+            <button type="button" onclick="drone('left')" id="gauche"><img src="https://img.icons8.com/ios-glyphs/90/000000/circled-chevron-left.png"/></button>
+            <button type="button" onclick="drone('right')" id="droite"><img src="https://img.icons8.com/ios-glyphs/90/000000/circled-chevron-right.png"/></button>
+          </div>
+      
+          <div>
+            <button type="button" onclick="drone('back')" id="reculer"><img src="https://img.icons8.com/ios-glyphs/90/000000/circled-chevron-down.png"/></button>
+          </div>
+        </div>
+        <div id="partiecentre" align-items="center" >
+          <div>
+              <button type="button" onclick="drone('takeoff')" id="start"><img src="https://img.icons8.com/glyph-neue/64/000000/airplane-take-off.png"/></button>
+          </div>
+          <div>
+              <button type="button" onclick="drone('land')" id="stop"><img src="https://img.icons8.com/glyph-neue/64/000000/airplane-landing.png"/></button>
+          </div>
+          <div>
+              <button type="button" onclick="drone('stop')" id="urgence"><img src="https://img.icons8.com/external-photo3ideastudio-solid-photo3ideastudio/64/000000/external-emergency-stop-emergency-photo3ideastudio-solid-photo3ideastudio.png"/></button>
+          </div>
+              
+            
+        </div>
+        <div id="partied">
+          <div>
+              <button type="button" onclick="drone('up')" id="up"><img src="https://img.icons8.com/ios-glyphs/90/000000/circled-up-2.png"/></button>
+          </div>
+          <div>
+            <button type="button" onclick="drone('cwl')" id="pivoter_gauche"><img src="https://img.icons8.com/ios-filled/70/000000/rotate-left.png"/></button>
+            <button type="button" onclick="drone('cwr')" id="pivoter_droite"><img src="https://img.icons8.com/ios-filled/70/000000/rotate-right.png"/></button>
+            
+          </div>
+          <div>
+              <button type="button" onclick="drone('down')" id="down"><img src="https://img.icons8.com/ios-glyphs/90/000000/circled-down-2.png"/></button>
+            </div>
+          </div>
       </div>
-    </div>
 
+          <div class="card center-div">
+            <ul id="log"></ul>
+          </div>
 
-    <div>
-      <button type="button" onclick="drone('takeoff')" id="start">Décoller</button>
-      <button type="button" onclick="drone('land')" id="stop">Atterir</button>
-      <button type="button" onclick="drone('stop')" id="urgence">Arrêt d'urgence</button>
-      
-    </div>
-
-    <div class="card">
-      <ul id="log"></ul>
-    </div>
+   
    
     <script src="/socket.io/socket.io.js"></script>
 
